@@ -1,0 +1,23 @@
+<%- include('includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+
+<body>
+    <main class="profile--container">
+        <div class="supplier-personal--container">
+            <h1 class="supplier--name"><%= supplier.name %></h1>
+            <h4 class="supplier--email"><%= supplier.email %></h4>
+        </div>
+        <h2 class="supplier--amount"><%= supplier.amount %></h2>
+        <div class="bank--information card">
+            <h3 class="bank--account"><%= supplier.accountNumber %></h3>
+            <h3 class="bank"><%= supplier.bankCode %></h3>
+        </div>
+        <div>
+            <a href="/admin/edit-supplier/<%= supplier._id %>?edit=true" class="btn action">Pay Supplier</a>
+            <a href="/admin/edit-supplier/<%= supplier._id %>?edit=true" class="btn action">Edit</a>
+            <a href="/admin/edit-supplier/<%= supplier._id %>?edit=true" class="btn action">Delete</a>
+        </div>
+    </main>
+    
+<%- include('includes/end.ejs') %>

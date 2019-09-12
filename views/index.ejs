@@ -1,0 +1,46 @@
+<%- include('includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+
+<body>
+    <%- include('includes/navigation.ejs') %>
+    <div class="top">
+        <div class="available--balance__container">
+            <div class="available--balance">
+                    <h3 class="available--balance__title">Balance:</h3>
+                <h3 class="available--balance__value">+ <%= balance %></h3>
+            </div>
+            <div class="control--container">
+                <a href="/admin/add-supplier" class="btn add">Add Supplier</a>
+                <button class="btn top-up">Top Up</button>
+            </div>
+        </div> 
+    </div>
+    <div class="bottom">
+        <% if(data.length > 0) { %>
+            <div class="data--container">
+                <h2 class="data--description">List Of Suppliers</h2>
+                <form class="suppliers--list" action="/admin/suppliers/pay" method="POST">
+                    <% for(let supplier of data) { %>
+                        <div class="supplier--container">
+                            <p class="supplier--name"><%= supplier.name %></p>
+                            <p class="supplier--amount"><%= supplier.amount %></p>
+                            <div class="action--control">
+                                <a href="/admin/supplier/<%= supplier._id %>" class="btn action">View</a>
+                                <a href="/admin/edit-supplier/<%= supplier._id %>?edit=true" class="btn action">Edit</a>
+                                <button class="btn action">Delete</button>
+                                <input type="hidden" value="<%= supplier._id %>" name="supplierId">
+                            </div>
+                        </div>
+                    <% } %>
+                    <button class="btn" type="submit">Pay All</button>
+                </form>
+            </div>
+        <% } else { %>
+            <div class="empty--container">
+                <h2 class="empty--description">No Supplier Added</h2>
+                <a href="/admin/add-supplier" class="btn add">Add Supplier</a>
+            </div>
+        <% } %>
+    </div>
+<%- include('includes/end.ejs') %>
