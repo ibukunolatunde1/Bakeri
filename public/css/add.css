@@ -1,0 +1,17 @@
+.supplier-form {
+    width: 70%;
+    margin: 1rem auto;
+    padding: 8px;
+}
+
+.action--btn {
+    width: 100%;
+}
+
+.form-control {
+    margin: 16px 0;
+}
+
+.form-control label {
+    width: 30%;
+}

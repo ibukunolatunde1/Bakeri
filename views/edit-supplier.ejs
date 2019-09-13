@@ -1,0 +1,61 @@
+<%- include('includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/add.css">
+</head>
+
+<body>
+    <main>
+        <% if (errorMessage) { %>
+            <div class="user-message user-message--error"><%= errorMessage %></div>
+        <% } %>
+        <form class="supplier-form card" action="/admin/<% if (editing) { %>edit-supplier<% } else { %>add-supplier<% } %>" method="POST">
+            <div class="form-control">
+                <label for="title">Name</label>
+                <input 
+                    type="text" 
+                    name="name" 
+                    id="name"
+                    value="<% if(editing || hasError ) { %><%= supplier.name %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="email">Email</label>
+                <input 
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                    value="<% if(editing || hasError ) { %><%= supplier.email %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="bankCode">Bank</label>
+                <%- include('includes/bank-select.ejs') %>
+            </div>
+            <div class="form-control">
+                <label for="accountNumber">Account Number</label>
+                <input 
+                    type="number" 
+                    name="accountNumber" 
+                    id="accountNumber"
+                    value="<% if(editing || hasError ) { %><%= supplier.accountNumber %><% } %>" >
+            </div>
+            <div class="form-control">
+                <label for="amount">Amount</label>
+                <input 
+                    type="number" 
+                    name="amount" 
+                    id="amount" 
+                    value="<% if(editing || hasError ) { %><%= supplier.amount %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea 
+                    name="description" 
+                    id="description" 
+                    rows="3"><% if (editing || hasError ) { %><%= supplier.description %><% } %></textarea>
+            </div>
+            <% if (editing) { %>
+                <input type="hidden" value="<%= supplier._id %>" name="supplierId">
+            <% } %>
+
+            <button class="btn action--btn" type="submit"><% if (editing) { %>Update Supplier<% } else { %>Add Supplier<% } %></button>
+        </form>
+    </main>
+<%- include('includes/end.ejs') %>
