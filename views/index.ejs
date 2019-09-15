@@ -24,11 +24,11 @@
                     <% for(let supplier of data) { %>
                         <div class="supplier--container">
                             <p class="supplier--name"><%= supplier.name %></p>
-                            <p class="supplier--amount"><%= supplier.amount %></p>
+                            <p class="supplier--amount"><%= supplier.amount / 100.0 %></p>
                             <div class="action--control">
                                 <a href="/admin/supplier/<%= supplier._id %>" class="btn action">View</a>
                                 <a href="/admin/edit-supplier/<%= supplier._id %>?edit=true" class="btn action">Edit</a>
-                                <button class="btn action">Delete</button>
+                                <button class="btn action" type="button" onclick="deleteSupplier(this)">Delete</button>
                                 <input type="hidden" value="<%= supplier._id %>" name="supplierId">
                             </div>
                         </div>

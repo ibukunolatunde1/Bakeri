@@ -37,12 +37,12 @@
                     value="<% if(editing || hasError ) { %><%= supplier.accountNumber %><% } %>" >
             </div>
             <div class="form-control">
-                <label for="amount">Amount</label>
+                <label for="amount">Amount (in Naira)</label>
                 <input 
                     type="number" 
                     name="amount" 
                     id="amount" 
-                    value="<% if(editing || hasError ) { %><%= supplier.amount %><% } %>">
+                    value="<% if(editing || hasError ) { %><%= supplier.amount / 100.0 %><% } %>">
             </div>
             <div class="form-control">
                 <label for="description">Description</label>
