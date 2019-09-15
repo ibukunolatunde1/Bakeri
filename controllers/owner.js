@@ -86,7 +86,7 @@ exports.postAddSupplier = (req, res, next) => {
                 email: email,
                 accountNumber: accountNumber,
                 bankCode: bankCode,
-                amount: amount,
+                amount: amount * 100,
                 recipientId: recipientCode,
                 description: description
             });
@@ -214,4 +214,27 @@ exports.postInitiateBulkTransfer = (req, res, next) => {
         })
         .then(response => console.log(response))
         .catch(err => console.log(err));
+}
+
+exports.deleteSupplier = (req, res, next) => {
+    const supplierId = req.params.supplierId;
+    // Delete from Paystack first
+    Supplier.findById(supplierId)
+    .then(supplier => {
+        if(!supplier) {
+            console.log('No supplier');
+            return res.status(404).json({message: 'No Product'});
+        }
+        const { recipientId } = supplier;
+        return paystack.delete(`/transferrecipient/${recipientId}`)
+    })
+    .then(result => {
+        return Supplier.deleteOne({ _id: supplierId })
+    })
+    .then(() => {
+        return res.status(200).json({ message: 'deleted' });
+    })
+    .catch(err => {
+        return res.status(500).json({ message: 'not able to delete' });
+    })
 }

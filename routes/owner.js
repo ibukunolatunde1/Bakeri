@@ -30,5 +30,6 @@ router.post(
     );
 router.get('/supplier/:supplierId', ownerController.getSupplier);
 router.post('/suppliers/pay', ownerController.postInitiateBulkTransfer);
+router.delete('/supplier/:supplierId', ownerController.deleteSupplier);
 
 module.exports = router;
