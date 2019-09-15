@@ -1,24 +1,19 @@
-const suppliers = document.getElementsByClassName('supplier--container');
-const backdrop = document.querySelector('.backdrop');
+const deleteSupplier = btn => {
+    const supplierId = btn.parentNode.querySelector('[name=supplierId]').value;
+    console.log(supplierId);
 
-// console.log(supplier);
+    const targetElement = btn.closest('.supplier--container');
+    console.log(targetElement);
 
-// Object.entries(supplier).map(object => console.log(object));
-
-// console.log(Array.from(supplier));
-
-
-const backdropClickHandler = () => {
-    console.log('Clicked on backdrop');
-    backdrop.style.display = 'none';
+    fetch(`/admin/supplier/${supplierId}`, {
+        method: 'DELETE',
+    })
+    .then(result => {
+        return result.json(); 
+    })
+    .then(data => {
+        console.log(data);
+        targetElement.parentNode.removeChild(targetElement);
+    })
+    .catch(err => console.log(err));
 }
-
-const viewSupplierHandler = () => {
-    backdrop.style.display = 'block';
-}
-
-// supplier.addEventListener('click', viewSupplierHandler);
-backdrop.addEventListener('click', backdropClickHandler);
-Array.from(suppliers).forEach(supplier => {
-    supplier.addEventListener('click', viewSupplierHandler);
-});
