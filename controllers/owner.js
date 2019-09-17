@@ -184,14 +184,27 @@ exports.getSupplier = (req, res, next) => {
 
 
 exports.postInitiateTransfer = (req, res, next) => {
-    paystack
-        .post('/transfer', {
-            source: 'balance',
-            reason: 'Payment from Bakeri',
-            amount: res.body.amount,
-            recipient: req.params.id
+    //Get customer from database
+    const supplierId = req.params.supplierId;
+    Supplier
+        .findById(supplierId)
+        .then(result => {
+            if(!result) {
+                return res.redirect('/admin');
+            }
+            return paystack.post('/transfer', {
+                source: 'balance',
+                reason: result.description,
+                amount: result.amount,
+                recipient: result.recipientId
+            })
         })
-        .then(result => console.log(result))
+        .then(result => {
+            if(result.data.data.status !== 'success'){
+                return res.status(200).json({message: 'Transfer queued'});
+            }
+            return res.status(200).json({message: 'Transfer Successful'});
+        })
         .catch(err => console.log(err));
 }
 
@@ -212,8 +225,13 @@ exports.postInitiateBulkTransfer = (req, res, next) => {
                 transfers: data
             })
         })
-        .then(response => console.log(response))
-        .catch(err => console.log(err));
+        .then(response => {
+            return res.status(200).json({ message: response.data.message })
+        })
+        .catch(err => {
+            return res.status(400).json({ message: 'Transaction Failed'});
+            // console.log(err);
+        });
 }
 
 exports.deleteSupplier = (req, res, next) => {
